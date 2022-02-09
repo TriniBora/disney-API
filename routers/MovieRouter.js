@@ -5,36 +5,36 @@ const MovieServiceInstance = new MovieService();
 const MovieControllerInstance = new MovieController(MovieServiceInstance);
 
 const movieRoutes = (app) => {
-  app.get("/characters", (req, res) =>
-    CharacterControllerInstance.findCharacters(req, res)
+  app.get("/movies", (req, res) =>
+    MovieControllerInstance.findMovies(req, res)
   );
 
-  app.get("/character/:id", (req, res) =>
-    CharacterControllerInstance.findCharacterById(req, res)
+  app.get("/movie/:id", (req, res) =>
+    MovieControllerInstance.findMovieById(req, res)
   );
 
-  app.get("/character/:name", (req, res) =>
-    CharacterControllerInstance.findCharacterByName(req, res)
+  app.get("/movie/:name", (req, res) =>
+    MovieControllerInstance.findMovieByName(req, res)
   );
 
-  app.get("/character/:age", (req, res) =>
-    CharacterControllerInstance.findCharacterByAge(req, res)
+  app.get("/movie/:gender", (req, res) =>
+    MovieControllerInstance.findMovieByGender(req, res)
   );
 
-  app.get("/character/:movies", (req, res) =>
-    CharacterControllerInstance.findCharacterMovies(req, res)
+  app.get("/movie/:order", (req, res) =>
+    MovieControllerInstance.findMovieByOrder(req, res)
   );
 
-  app.post("/character", (req, res) =>
-    CharacterControllerInstance.createCharacter(req, res)
+  app.post("/movie", (req, res) =>
+    MovieControllerInstance.createMovie(req, res)
   );
 
-  app.put("/character/:id", (req, res) =>
-    CharacterControllerInstance.updateCharacter(req, res)
+  app.put("/movie/:id", (req, res) =>
+    MovieControllerInstance.updateMovie(req, res)
   );
 
-  app.delete("/character/:id", (req, res) =>
-    CharacterControllerInstance.deleteCharacterById(req, res)
+  app.delete("/movie/:id", (req, res) =>
+    MovieControllerInstance.deleteMovieById(req, res)
   );
 };
 
