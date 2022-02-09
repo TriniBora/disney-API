@@ -4,6 +4,8 @@
   "description": "A RESTful API that allows you to get and modify all Disney World characters. Alkemy's Challenge Backend NodeJs (2022).",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
+    "dev": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -23,5 +25,8 @@
   "bugs": {
     "url": "https://github.com/TriniBora/disney-API/issues"
   },
-  "homepage": "https://github.com/TriniBora/disney-API#readme"
+  "homepage": "https://github.com/TriniBora/disney-API#readme",
+  "dependencies": {
+    "express": "^4.17.2"
+  }
 }
