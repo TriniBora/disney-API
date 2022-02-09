@@ -12,3 +12,16 @@ npm install
 This project includes dependecies such as:
 - Express
 - Sequelize
+- Dotenv
+
+## Run
+
+```
+npm start
+```
+
+## Environment Variables
+
+See .env.example for more information on environment variables
+
+Create a .env file in the root directory of the project and add the variables you need.
