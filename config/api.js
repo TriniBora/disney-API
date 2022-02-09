@@ -1,4 +1,4 @@
-const apiV1 = requiere("express");
+const apiV1 = require("express")();
 const characterRouter = require("../routers/CharacterRouter");
 const movieRouter = require("../routers/MovieRouter");
 

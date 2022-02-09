@@ -10,9 +10,10 @@ npm install
 ```
 
 This project includes dependecies such as:
-- Express
-- Sequelize
-- Dotenv
+- NodeJs Framework: Express
+- Environment variables: Dotenv
+- ORM: Sequelize
+- mySQL driver: mysql2
 
 ## Run
 
