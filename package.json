@@ -27,6 +27,7 @@
   },
   "homepage": "https://github.com/TriniBora/disney-API#readme",
   "dependencies": {
-    "express": "^4.17.2"
+    "express": "^4.17.2",
+    "sequelize": "^6.16.0"
   }
 }
