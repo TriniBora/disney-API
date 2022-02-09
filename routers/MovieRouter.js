@@ -22,7 +22,7 @@ const movieRoutes = (app) => {
   );
 
   app.get("/movie/:order", (req, res) =>
-    MovieControllerInstance.findMovieByOrder(req, res)
+    MovieControllerInstance.sortMoviesByCreationDate(req, res)
   );
 
   app.post("/movie", (req, res) =>

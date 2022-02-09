@@ -20,7 +20,11 @@ const characterRoutes = (app) => {
   );
 
   app.get("/character/:age", (req, res) =>
-    CharacterControllerInstance.findCharacterByAge(req, res)
+    CharacterControllerInstance.findCharactersByAge(req, res)
+  );
+
+  app.get("/character/:weight", (req, res) =>
+    CharacterControllerInstance.findCharactersByWeight(req, res)
   );
 
   app.get("/character/:movies", (req, res) =>
