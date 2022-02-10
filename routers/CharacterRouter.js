@@ -1,5 +1,6 @@
 const CharacterController = require("../controllers/CharacterController");
 const CharacterService = require("../services/CharacterService");
+const CharacterModel = require("../models/CharacterModel");
 
 const CharacterServiceInstance = new CharacterService();
 const CharacterControllerInstance = new CharacterController(
