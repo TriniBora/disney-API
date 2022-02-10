@@ -1,5 +1,7 @@
 const MovieController = require("../controllers/MovieController");
 const MovieService = require("../services/MovieService");
+const MovieModel = require("../models/MovieModel");
+const GenreModel = require("../models/GenreModel");
 
 const MovieServiceInstance = new MovieService();
 const MovieControllerInstance = new MovieController(MovieServiceInstance);
@@ -17,8 +19,8 @@ const movieRoutes = (app) => {
     MovieControllerInstance.findMovieByName(req, res)
   );
 
-  app.get("/movie/:gender", (req, res) =>
-    MovieControllerInstance.findMovieByGender(req, res)
+  app.get("/movie/:genre", (req, res) =>
+    MovieControllerInstance.findMovieByGenre(req, res)
   );
 
   app.get("/movie/:order", (req, res) =>

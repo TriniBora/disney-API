@@ -1,8 +1,8 @@
-const { Model, DataTypes } = require("sequelize");
+const { DataTypes } = require("sequelize");
 
 const sequelize = require("../config/db");
 
-const Character = sequelize.define(
+const CharacterModel = sequelize.define(
   "Character",
   {
     //   id: {
@@ -36,3 +36,5 @@ const Character = sequelize.define(
     tableName: "characters",
   }
 );
+
+module.exports = CharacterModel;

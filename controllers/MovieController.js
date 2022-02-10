@@ -5,7 +5,7 @@ class MovieController {
   findMovies(req, res) {}
   findMovieById(req, res) {}
   findMovieByName(req, res) {}
-  findMovieByGender(req, res) {}
+  findMovieByGenre(req, res) {}
   sortMoviesByCreationDate(req, res) {}
   createMovie(req, res) {}
   updateMovie(req, res) {}

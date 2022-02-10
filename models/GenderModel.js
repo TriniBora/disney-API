@@ -2,8 +2,8 @@ const { DataTypes } = require("sequelize");
 
 const sequelize = require("../config/db");
 
-const MovieModel = sequelize.define(
-  "Movie",
+const GenreModel = sequelize.define(
+  "Genre",
   {
     //   id: {
     //     type: DataTypes.INTEGER,
@@ -11,18 +11,9 @@ const MovieModel = sequelize.define(
     //     primaryKey: true,
     //     allowNull: false,
     //   },
-    title: {
+    name: {
       type: DataTypes.STRING,
       allowNull: false,
-    },
-    rate: {
-      type: DataTypes.ENUM(1, 2, 3, 4, 5),
-      allowNull: false,
-    },
-    creationDate: {
-      type: DataTypes.DATEONLY,
-      allowNull: false,
-      defaultValue: DataTypes.NOW,
     },
     image: {
       type: DataTypes.BLOB,
@@ -30,8 +21,8 @@ const MovieModel = sequelize.define(
     },
   },
   {
-    tableName: "movies",
+    tableName: "genres",
   }
 );
 
-module.exports = MovieModel;
+module.exports = GenreModel;
