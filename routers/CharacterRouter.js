@@ -4,17 +4,17 @@ const characterRouter = express.Router();
 const characterController = require("../controllers/CharacterController");
 
 characterRouter.get("/characters", characterController.findCharacters);
-characterRouter.get("/characters/:id", characterController.findCharactersById);
+characterRouter.get("/characters/:id", characterController.findCharacterById);
 characterRouter.get(
-  "/characters/:name",
+  "/characters?name=name",
   characterController.findCharacterByName
 );
 characterRouter.get(
-  "/characters/:age",
+  "/characters?age=age",
   characterController.findCharactersByAge
 );
 characterRouter.get(
-  "/characters/:weight",
+  "/characters?weight=weight",
   characterController.findCharactersByWeight
 );
 characterRouter.get(
@@ -23,6 +23,6 @@ characterRouter.get(
 );
 characterRouter.post("/characters", characterController.createCharacter);
 characterRouter.put("/characters/:id", characterController.updateCharacter);
-characterRouter.delete("/characters/:id", characterController.deletCharacter);
+characterRouter.delete("/characters/:id", characterController.deleteCharacter);
 
 module.exports = characterRouter;

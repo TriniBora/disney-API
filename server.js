@@ -18,7 +18,7 @@ app.listen(port, () => {
   // Database connection test
   const dbConnection = async () => {
     try {
-      await sequelize.authenticate();
+      await sequelize.sync();
       console.log(
         "Connection to the database has been established successfully."
       );
