@@ -1,13 +1,20 @@
 const sequelize = require("../config/db");
 
-const CharacterModel = require("../models/CharacterModel");
-const CharacterModelInstance = CharacterModel(sequelize);
+const characterModel = require("../models/CharacterModel");
+
+const createCharacter = async (newCharacter) => {
+  const character = await characterModel.create({
+    name: newCharacter.name,
+    age: newCharacter.age,
+    weight: newCharacter.weight,
+    history: newCharacter.history,
+    image: newCharacter.image,
+  });
+  console.log(newCharacter);
+  console.log(character);
+  return character;
+};
+
 sequelize.sync({ force: true });
 
-class CharacterService {
-  constructor(characterModel) {
-    this.characterModel = characterModel;
-  }
-}
-
-module.exports = CharacterService;
+module.exports = { createCharacter };
