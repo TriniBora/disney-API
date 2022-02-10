@@ -1,43 +1,15 @@
-const MovieController = require("../controllers/MovieController");
-const MovieService = require("../services/MovieService");
-const MovieModel = require("../models/MovieModel");
-const GenreModel = require("../models/GenreModel");
+const express = require("express");
+const movieRouter = express.Router();
 
-const MovieServiceInstance = new MovieService();
-const MovieControllerInstance = new MovieController(MovieServiceInstance);
+const movieController = require("../controllers/MovieController");
 
-const movieRoutes = (app) => {
-  app.get("/movies", (req, res) =>
-    MovieControllerInstance.findMovies(req, res)
-  );
+movieRouter.get("/movies", movieController.findMovies);
+movieRouter.get("/movies/:id", movieController.findMovieById);
+movieRouter.get("/movies/:name", movieController.findMovieByName);
+movieRouter.get("/movies/:genre", movieController.findMovieByGenre);
+movieRouter.get("/movies/:order", movieController.sortMoviesByCreationDate);
+movieRouter.post("/movies", movieController.createMovie);
+movieRouter.put("/movies/:id", movieController.updateMovie);
+movieRouter.delete("/movies/:id", movieController.deleteMovie);
 
-  app.get("/movie/:id", (req, res) =>
-    MovieControllerInstance.findMovieById(req, res)
-  );
-
-  app.get("/movie/:name", (req, res) =>
-    MovieControllerInstance.findMovieByName(req, res)
-  );
-
-  app.get("/movie/:genre", (req, res) =>
-    MovieControllerInstance.findMovieByGenre(req, res)
-  );
-
-  app.get("/movie/:order", (req, res) =>
-    MovieControllerInstance.sortMoviesByCreationDate(req, res)
-  );
-
-  app.post("/movie", (req, res) =>
-    MovieControllerInstance.createMovie(req, res)
-  );
-
-  app.put("/movie/:id", (req, res) =>
-    MovieControllerInstance.updateMovie(req, res)
-  );
-
-  app.delete("/movie/:id", (req, res) =>
-    MovieControllerInstance.deleteMovieById(req, res)
-  );
-};
-
-module.exports = movieRoutes;
+module.exports = movieRouter;

@@ -1,16 +1,23 @@
-class CharacterController {
-  constructor(characterService) {
-    this.characterService = characterService;
-  }
+const characterService = require("../services/CharacterService");
 
-  findCharacters(req, res) {}
-  findCharacterByName(req, res) {}
-  findCharactersByAge(req, res) {}
-  findCharactersByWeight(req, res) {}
-  findCharacterMovies(req, res) {}
-  createCharacter(req, res) {}
-  updateCharacter(req, res) {}
-  deleteCharacterById(req, res) {}
-}
+const findCharacters = async (req, res) => {};
+const findCharactersById = async (req, res) => {};
+const findCharacterByName = async (req, res) => {};
+const findCharactersByAge = async (req, res) => {};
+const findCharactersByWeight = async (req, res) => {};
+const findCharacterMovies = async (req, res) => {};
+const createCharacter = async (req, res) => {};
+const updateCharacter = async (req, res) => {};
+const deletCharacter = async (req, res) => {};
 
-module.exports = CharacterController;
+module.exports = {
+  findCharacters,
+  findCharactersById,
+  findCharacterByName,
+  findCharactersByAge,
+  findCharactersByWeight,
+  findCharacterMovies,
+  createCharacter,
+  updateCharacter,
+  deletCharacter,
+};
