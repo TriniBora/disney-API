@@ -2,8 +2,10 @@ const sequelize = require("../config/db");
 
 const characterModel = require("../models/CharacterModel");
 
-const findCharactersService = async () => {
-  const characters = await characterModel.findAll();
+const findCharactersService = async (query) => {
+  const characters = await characterModel.findAll({
+    where: query,
+  });
   return characters;
 };
 
@@ -11,33 +13,6 @@ const findCharacterByIdService = async (id) => {
   const character = await characterModel.findAll({
     where: {
       id: id,
-    },
-  });
-  return character;
-};
-
-const findCharacterByNameService = async (name) => {
-  const character = await characterModel.findAll({
-    where: {
-      name: name,
-    },
-  });
-  return character;
-};
-
-const findCharacterByAgeService = async (age) => {
-  const character = await characterModel.findAll({
-    where: {
-      age: age,
-    },
-  });
-  return character;
-};
-
-const findCharacterByWeightService = async (weight) => {
-  const character = await characterModel.findAll({
-    where: {
-      weight: weight,
     },
   });
   return character;
@@ -87,9 +62,6 @@ const deleteCharacterService = async (id) => {
 module.exports = {
   findCharactersService,
   findCharacterByIdService,
-  findCharacterByNameService,
-  findCharacterByAgeService,
-  findCharacterByWeightService,
   createCharacterService,
   updateCharacterService,
   deleteCharacterService,

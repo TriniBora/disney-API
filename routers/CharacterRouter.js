@@ -6,18 +6,6 @@ const characterController = require("../controllers/CharacterController");
 characterRouter.get("/characters", characterController.findCharacters);
 characterRouter.get("/characters/:id", characterController.findCharacterById);
 characterRouter.get(
-  "/characters?name=name",
-  characterController.findCharacterByName
-);
-characterRouter.get(
-  "/characters?age=age",
-  characterController.findCharactersByAge
-);
-characterRouter.get(
-  "/characters?weight=weight",
-  characterController.findCharactersByWeight
-);
-characterRouter.get(
   "/characters/:movies",
   characterController.findCharacterMovies
 );

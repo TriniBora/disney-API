@@ -1,9 +1,30 @@
+const { query } = require("express");
 const characterService = require("../services/CharacterService");
 
 const findCharacters = async (req, res) => {
   try {
-    const characters = await characterService.findCharactersService();
-    res.status(200).json(characters);
+    const queryKeys = Object.keys(req.query);
+    if (queryKeys.every((key) => key in ["name", "age", "weight"])) {
+      const characters = await characterService.findCharactersService(
+        req.query
+      );
+      res.status(200).json({
+        status: 200,
+        data: characters,
+        message: `${
+          characters.length > 0
+            ? "Characters retrieved successfully."
+            : "There is no characters in the database."
+        }`,
+      });
+    } else {
+      res.status(401).json({
+        status: 401,
+        data: null,
+        message:
+          "Only characters filtered by name, age, or weight are allowed.",
+      });
+    }
   } catch (error) {
     res.status(500).json(error);
   }
@@ -13,39 +34,6 @@ const findCharacterById = async (req, res) => {
   try {
     const character = await characterService.findCharacterByIdService(
       req.params.id
-    );
-    res.status(200).json(character);
-  } catch (error) {
-    res.status(500).json(error);
-  }
-};
-
-const findCharacterByName = async (req, res) => {
-  try {
-    const character = await characterService.findCharacterByNameService(
-      req.params.name
-    );
-    res.status(200).json(character);
-  } catch (error) {
-    res.status(500).json(error);
-  }
-};
-
-const findCharactersByAge = async (req, res) => {
-  try {
-    const character = await characterService.findCharacterByAgeService(
-      req.params.age
-    );
-    res.status(200).json(character);
-  } catch (error) {
-    res.status(500).json(error);
-  }
-};
-
-const findCharactersByWeight = async (req, res) => {
-  try {
-    const character = await characterService.findCharacterByWeightService(
-      req.params.weight
     );
     res.status(200).json(character);
   } catch (error) {
@@ -84,9 +72,6 @@ const deleteCharacter = async (req, res) => {
 module.exports = {
   findCharacters,
   findCharacterById,
-  findCharacterByName,
-  findCharactersByAge,
-  findCharactersByWeight,
   findCharacterMovies,
   createCharacter,
   updateCharacter,
