@@ -1,5 +1,5 @@
 # disney-API
-A RESTful API that allows you to get and modify all Disney World characters. Alkemy's Challenge Backend NodeJs (2022).
+A RESTful API that allows you to get and modify all Disney World characters. Alkemy's Challenge Backend NodeJs (2022). Link to document: https://drive.google.com/file/d/1XCUYgTFaE9uBNI-FqKDWIa4RCztooz_X/view?usp=sharing.
 
 ## Installation
 
@@ -23,6 +23,6 @@ npm start
 
 ## Environment Variables
 
-See .env.example for more information on environment variables
+See `.env.example` for more information on environment variables
 
-Create a .env file in the root directory of the project and add the variables you need.
+Create a `.env` file in the root directory of the project and add the variables you need.
