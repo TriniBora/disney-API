@@ -26,13 +26,14 @@ const MovieModel = sequelize.define(
     },
     creationDate: {
       type: DataTypes.DATEONLY,
+      defaultValue: sequelize.literal("CURRENT_DATE"), // Current date to be inserted in the database
       validate: {
         isDate: {
           args: true,
           msg: "Creation date must be a date with the format 'yyyy-MM-dd'",
         },
         isBefore: {
-          args: DataTypes.NOW.toString(),
+          args: new Date().toISOString().split("T")[0], // Current date formatted as 'yyyy-MM-dd'
           msg: "Creation date must be before today",
         },
       },
