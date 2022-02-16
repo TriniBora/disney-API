@@ -53,6 +53,9 @@ const characterModel = sequelize.define(
     },
   },
   {
+    timestamps: false,
+  },
+  {
     tableName: "characters",
   }
 );

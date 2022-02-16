@@ -43,6 +43,9 @@ const MovieModel = sequelize.define(
     },
   },
   {
+    timestamps: false,
+  },
+  {
     tableName: "movies",
   }
 );
