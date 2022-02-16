@@ -24,12 +24,8 @@ const findCharactersService = async (query) => {
 // This function return the character with the given id stored in the database
 // If the character is not found, an error message is returned
 const findCharacterByIdService = async (id) => {
-  const character = await characterModel.findAll({
-    where: {
-      id: id,
-    },
-  });
-  if (character.length === 0) {
+  const character = await characterModel.findByPk(id);
+  if (character === null) {
     throw { code: 400, message: "Invalid character id" };
   }
   return character;

@@ -6,36 +6,20 @@ const MovieModel = sequelize.define(
   {
     title: {
       type: DataTypes.STRING,
-      allowNull: false,
       validate: {
         len: {
           args: [2, 255],
           msg: "Minimum length is 2 characters and maximum is 255 characters",
         },
-        notNull: { args: false, msg: "Title is required" },
       },
+      allowNull: false,
     },
     rate: {
       type: DataTypes.ENUM("1", "2", "3", "4", "5"),
-      validate: {
-        isIn: {
-          args: [["1", "2", "3", "4", "5"]],
-          msg: "Rate must be 1, 2, 3, 4 or 5",
-        },
-      },
     },
     creationDate: {
       type: DataTypes.DATEONLY,
-      validate: {
-        isDate: {
-          args: true,
-          msg: "Creation date must be a date with the format 'yyyy-MM-dd'",
-        },
-        isBefore: {
-          args: DataTypes.NOW.toString(),
-          msg: "Creation date must be before today",
-        },
-      },
+      defaultValue: DataTypes.NOW,
     },
     image: {
       type: DataTypes.BLOB,

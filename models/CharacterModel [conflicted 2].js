@@ -8,42 +8,21 @@ const characterModel = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        is: {
-          args: /^[A-Za-zÀ-ÿ\s]+$/g, //Letters(included ñ and Ñ), spaces and accents
-          msg: "Only letters and spaces allowed",
-        },
+        is: { args: /^[A-Za-z\s]+$/g, msg: "Only letters and spaces allowed" },
         len: {
           args: [2, 255],
           msg: "Minimum length is 2 characters and maximum is 255 characters",
         },
-        notNull: { args: false, msg: "Name is required" },
+        isNull: { args: true, msg: "Name is required" },
       },
     },
     age: {
       type: DataTypes.INTEGER,
-      validate: {
-        isInt: {
-          args: true,
-          msg: "Age may be a integer number",
-        },
-        min: {
-          args: 1,
-          msg: "Age must be greater than zero",
-        },
-      },
+      validate: { isInt: true, min: 1 },
     },
     weight: {
       type: DataTypes.DECIMAL(5, 2),
-      validate: {
-        isDecimal: {
-          args: true,
-          msg: "Weight must be a decimal number",
-        },
-        min: {
-          args: 0,
-          msg: "Weight must be greater than zero",
-        },
-      },
+      validate: { isDecimal: true, min: 0 },
     },
     history: {
       type: DataTypes.STRING(1234),

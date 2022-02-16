@@ -42,12 +42,8 @@ const findMoviesService = async (query) => {
 // This function return the movie/serie with the given id stored in the database
 // If the movie/serie is not found, an error message is returned
 const findMovieByIdService = async (id) => {
-  const movie = await movieModel.findAll({
-    where: {
-      id: id,
-    },
-  });
-  if (movie.length === 0) {
+  const movie = await movieModel.findByPk(id);
+  if (movie === null) {
     throw { code: 400, message: "Invalid movie/serie id" };
   }
   return movie;
