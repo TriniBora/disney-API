@@ -10,6 +10,13 @@ const findMoviesService = async (query) => {
   // the exactly given genre in case that the query parameters are passed
   if (Object.keys(query).includes("title")) {
     const movies = await movieModel.findAll({
+      // Relation between the movies and the genres table
+      include: {
+        model: genreModel,
+        as: "Genre",
+        attributes: ["name"],
+      },
+      attributes: ["title"],
       //Includes the Op.like sequelize operator to match the name partially or exactly
       where: { ...query, title: { [Op.like]: `%${query.title}%` } },
     });
@@ -26,6 +33,11 @@ const findMoviesService = async (query) => {
     delete query["order"];
 
     const movies = await movieModel.findAll({
+      // Relation between the movies and the genres table
+      include: {
+        model: genreModel,
+        attributes: ["name"],
+      },
       //Includes the "order" sequelize option to sort the movies/series by creation date, ascending or descending
       where: query,
       order: [["creationDate", order]],
@@ -33,6 +45,11 @@ const findMoviesService = async (query) => {
     return movies;
   } else {
     const movies = await movieModel.findAll({
+      // Relation between the movies and the genres table
+      include: {
+        model: genreModel,
+        attributes: ["name"],
+      },
       where: query,
     });
     return movies;
@@ -51,12 +68,13 @@ const findMovieByIdService = async (id) => {
 
 // This function inserts a new movie/serie in the database
 const createMovieService = async (payload) => {
-  const { title, rate, creationDate, image } = payload;
+  const { title, rate, creationDate, image, genreId } = payload;
   const movie = await movieModel.create({
     title: title,
     rate: rate,
     creationDate: creationDate,
     image: image,
+    genre_id: genreId,
   });
   return movie;
 };
@@ -64,16 +82,17 @@ const createMovieService = async (payload) => {
 // This function updates only the modified data of the movie/serie with the given id stored in the database
 const updateMovieService = async (payload, id) => {
   //Destructuring the payload
-  const { title, rate, creationDate, image } = payload;
+  const { title, rate, creationDate, image, genreId } = payload;
 
   // Checks if the movie/serie exists in the database, if not found, throws an error
-  await findMovieByIdService(id);
+  const movie = await findMovieByIdService(id);
   const movieUpdated = await movieModel.update(
     {
       title: title || movie.title,
       rate: rate || movie.rate,
       creationDate: creationDate || movie.creationDate,
       image: image || movie.image,
+      genre_d: genreId || movie.genre_id,
     },
     {
       where: {

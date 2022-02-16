@@ -3,6 +3,7 @@ const express = require("express");
 const api = require("./config/api");
 const app = express();
 const sequelize = require("./config/db");
+require("./config/associations");
 
 const port = process.env.PORT || 3000;
 
