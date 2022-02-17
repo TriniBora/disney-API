@@ -26,8 +26,11 @@ const findMovies = async (req, res) => {
       });
     }
   } catch (error) {
-    res.status(500).json(error);
-    console.log(error);
+    res.status(error.code || 500).json({
+      status: error.code || 500,
+      data: null,
+      message: error.message || "Error finding movie/serie",
+    });
   }
 };
 
@@ -39,22 +42,16 @@ const findMovieById = async (req, res) => {
     res.status(200).json({
       status: 200,
       data: movie,
-      message: `${
-        movie.length === 1
-          ? "Movie/serie retrieved successfully."
-          : "There is no exists any movie/serie with this ID in the database."
-      }`,
+      message: "Movie/serie retrieved successfully.",
     });
   } catch (error) {
-    res.status(error.code).json({
-      status: error.code,
+    res.status(error.code || 500).json({
+      status: error.code || 500,
       data: null,
-      message: error.message,
+      message: error.message || "Error finding movie/serie",
     });
   }
 };
-
-const findGenreMovies = async (req, res) => {};
 
 // This function is used to create a new movie/serie
 // If thw movie/serie data is not valid, an error message is returned ---------- AGREGAR VALIDATE MODEL!!
@@ -67,8 +64,11 @@ const createMovie = async (req, res) => {
       message: "Movie/serie created successfully",
     });
   } catch (error) {
-    res.status(500).json(error);
-    console.log(error);
+    res.status(error.code || 500).json({
+      status: error.code || 500,
+      data: null,
+      message: error.message || "Error creating movie/serie",
+    });
   }
 };
 
@@ -84,10 +84,10 @@ const updateMovie = async (req, res) => {
       message: "Movie/serie updated successfully",
     });
   } catch (error) {
-    res.status(error.code).json({
-      status: error.code,
+    res.status(error.code || 500).json({
+      status: error.code || 500,
       data: null,
-      message: error.message,
+      message: error.message || "Error updating movie/serie",
     });
   }
 };
@@ -114,7 +114,6 @@ const deleteMovie = async (req, res) => {
 module.exports = {
   findMovies,
   findMovieById,
-  findGenreMovies,
   createMovie,
   updateMovie,
   deleteMovie,
