@@ -4,6 +4,7 @@ const api = require("./config/api");
 const app = express();
 const sequelize = require("./config/db");
 require("./config/associations");
+// require("./scripts/seeds");
 
 const port = process.env.PORT || 3000;
 
@@ -19,7 +20,8 @@ app.listen(port, () => {
   // Database connection test
   const dbConnection = async () => {
     try {
-      await sequelize.sync({ force: true });
+      await sequelize.sync({ force: false });
+
       console.log(
         "Connection to the database has been established successfully."
       );
