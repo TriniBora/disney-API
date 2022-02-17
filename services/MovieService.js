@@ -6,51 +6,62 @@ const genreModel = require("../models/GenreModel");
 // This function returns the movies/series which matching the given title, genre, or sort type stored in the database
 // If any query parameter is provided, it returns all the movies/series stored in the database
 const findMoviesService = async (query) => {
-  // It searches for the movies/series which containing the given title exactly or partially,
-  // the exactly given genre in case that the query parameters are passed
-  if (Object.keys(query).includes("title")) {
-    const movies = await movieModel.findAll({
-      // Relation between the movies and the genres table
-      include: {
-        model: genreModel,
-        as: "Genre",
-        attributes: ["name"],
-      },
-      attributes: ["title"],
-      //Includes the Op.like sequelize operator to match the name partially or exactly
-      where: { ...query, title: { [Op.like]: `%${query.title}%` } },
-    });
-    return movies;
-  } else if (Object.keys(query).includes("order")) {
-    const order = query.order.toUpperCase();
+  const queryKeys = Object.keys(query);
+  let newQuery = { ...query };
+  // It searches for the movies/series which containing the given title exactly or partially
+  if (queryKeys.includes("title")) {
+    //Includes the Op.like sequelize operator to match the title partially or exactly
+    newQuery = { ...query, title: { [Op.like]: `%${query.title}%` } };
+  }
 
+  // If there is a genre parameter, first finds the id  of that genre
+  // then removes the genre parameter from the query because this is not a column in the database table "movies"
+  // finally the genre_id is added to the query
+  if (queryKeys.includes("genre")) {
+    const genre = await genreModel.findOne({
+      where: { name: query.genre },
+    });
+    delete newQuery["genre"];
+    newQuery = { ...newQuery, GenreId: genre.id };
+  }
+
+  // Relation between the movies and the genres table
+  const include = {
+    model: genreModel,
+    as: "Genre",
+    attributes: ["name"],
+  };
+  // Fields to be selected from the table "movies"
+  const attributes = ["title", "rate", "creationDate", "image"];
+  // Conditions to be applied to the query
+  const where = newQuery;
+
+  // If the query parameters include "order", it applies the sort type to the query
+  if (queryKeys.includes("order")) {
+    const order = query.order.toUpperCase();
     // If the order is diferent to ASC or DESC, an error message is returned
     if (order !== "ASC" && order !== "DESC") {
       throw { code: 400, message: "Order must be ASC or DESC" };
     }
-
     //Removes order key because this is not a column in the database table "movies"
-    delete query["order"];
+    delete newQuery["order"];
+    // Order results by the given sort type
+    const orderBy = [["creationDate", order]];
 
+    // Returns the movies/series which matching the given title, genre, or sort type stored in the database
     const movies = await movieModel.findAll({
-      // Relation between the movies and the genres table
-      include: {
-        model: genreModel,
-        attributes: ["name"],
-      },
-      //Includes the "order" sequelize option to sort the movies/series by creation date, ascending or descending
-      where: query,
-      order: [["creationDate", order]],
+      include: include,
+      attributes: attributes,
+      where: where,
+      order: orderBy,
     });
     return movies;
+    // Returns all the movies/series stored in the database without applying any sort type
   } else {
     const movies = await movieModel.findAll({
-      // Relation between the movies and the genres table
-      include: {
-        model: genreModel,
-        attributes: ["name"],
-      },
-      where: query,
+      include: include,
+      attributes: attributes,
+      where: where,
     });
     return movies;
   }
