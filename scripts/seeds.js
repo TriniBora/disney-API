@@ -2,6 +2,7 @@ const sequelize = require("../config/db");
 const characterModel = require("../models/CharacterModel");
 const genreModel = require("../models/GenreModel");
 const movieModel = require("../models/MovieModel");
+const characterMovieModel = require("../models/CharacterMovieModel");
 require("../config/associations");
 
 // Characters
@@ -65,20 +66,21 @@ const movies = [
 ];
 
 const characterMovies = [
-  { MovieId: 1, CharacterId: 2 },
-  { MovieId: 2, CharacterId: 3 },
-  { MovieId: 3, CharacterId: 1 },
+  { CharacterId: 2, MovieId: 1 },
+  { CharacterId: 3, MovieId: 2 },
+  { CharacterId: 1, MovieId: 3 },
 ];
 
-(async () => {
+const seeds = async () => {
   try {
-    // await sequelize.sync({ force: false });
-    await characters.forEach((character) => characterModel.create(character));
-    await genres.forEach((genre) => genreModel.create(genre));
-    await movies.forEach((movie) => movieModel.create(movie));
-    // await characterMovies.forEach((character) => characterModel.create(character));
+    await characterModel.bulkCreate(characters);
+    await genreModel.bulkCreate(genres);
+    await movieModel.bulkCreate(movies);
+    await characterMovieModel.bulkCreate(characterMovies);
     console.log("Inserción.");
   } catch (error) {
     console.error("No inserción:", error);
   }
-})();
+};
+
+module.exports = seeds;
