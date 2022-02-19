@@ -3,9 +3,9 @@ const express = require("express");
 const api = require("./config/api");
 const app = express();
 const sequelize = require("./config/db");
-const seeds = require("./scripts/seeds");
+const seeds = require("./config/scripts/seeds");
 require("./config/associations");
-// require("./scripts/seeds");
+// require("./config/scripts/seeds");
 
 const port = process.env.PORT || 3000;
 
@@ -16,7 +16,7 @@ app.use(express.json());
 app.use("/api/v1", api.v1);
 
 app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+  console.log(`Server is running on http://localhost:${port}`);
 
   // Database connection test
   const dbConnection = async () => {

@@ -1,9 +1,9 @@
-const sequelize = require("../config/db");
-const characterModel = require("../models/CharacterModel");
-const genreModel = require("../models/GenreModel");
-const movieModel = require("../models/MovieModel");
-const characterMovieModel = require("../models/CharacterMovieModel");
-require("../config/associations");
+const sequelize = require("../db");
+const characterModel = require("../../models/CharacterModel");
+const genreModel = require("../../models/GenreModel");
+const movieModel = require("../../models/MovieModel");
+const characterMovieModel = require("../../models/CharacterMovieModel");
+require("../associations");
 
 // Characters
 const characters = [
