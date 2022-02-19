@@ -1,12 +1,12 @@
 const { query } = require("express");
 const characterService = require("../services/CharacterService");
 
-// This function is used to find all characters, filtering by name, age and weight in case of query parameters
+// This function is used to find all characters, filtering by name, age, weight or movie id in case of query parameters
 const findCharacters = async (req, res) => {
   try {
     const queryKeys = Object.keys(req.query);
-    // Only allowed to filter characters by name, age and weight. If any other query parameter is passed,
-    // an error message is returned
+    // Only allowed to filter characters by name, age, weight and movie id.
+    // If any other query parameter is passed, an error message is returned
     if (
       queryKeys.every((key) =>
         ["name", "age", "weight", "movies"].includes(key)
@@ -21,7 +21,7 @@ const findCharacters = async (req, res) => {
         message: `${
           characters.length > 0
             ? "Characters retrieved successfully."
-            : "There is no characters in the database."
+            : "There is no characters in the database that match with the query."
         }`,
       });
     } else {
@@ -33,8 +33,11 @@ const findCharacters = async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error);
-    res.status(500).json(error);
+    res.status(error.code || 500).json({
+      status: error.code || 500,
+      data: null,
+      message: error.message || "Error finding characters",
+    });
   }
 };
 
@@ -62,8 +65,6 @@ const findCharacterById = async (req, res) => {
     });
   }
 };
-
-const findCharacterMovies = async (req, res) => {};
 
 // This function is used to create a new character
 // If the character data is not valid, an error message is returned ---------- AGREGAR VALIDATE MODEL!!
@@ -122,7 +123,6 @@ const deleteCharacter = async (req, res) => {
 module.exports = {
   findCharacters,
   findCharacterById,
-  findCharacterMovies,
   createCharacter,
   updateCharacter,
   deleteCharacter,

@@ -5,10 +5,6 @@ const characterController = require("../controllers/CharacterController");
 
 characterRouter.get("/characters", characterController.findCharacters);
 characterRouter.get("/characters/:id", characterController.findCharacterById);
-characterRouter.get(
-  "/characters/:movies",
-  characterController.findCharacterMovies
-);
 characterRouter.post("/characters", characterController.createCharacter);
 characterRouter.put("/characters/:id", characterController.updateCharacter);
 characterRouter.delete("/characters/:id", characterController.deleteCharacter);
