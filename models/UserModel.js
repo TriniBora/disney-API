@@ -6,7 +6,6 @@ const userModel = sequelize.define(
   {
     username: {
       type: DataTypes.STRING,
-      unique: true,
       allowNull: false,
       validate: {
         is: {
@@ -20,15 +19,19 @@ const userModel = sequelize.define(
         },
         notNull: { args: false, msg: "Username is required" },
       },
+      unique: {
+        args: true,
+        msg: "Username already in use",
+      },
     },
     password: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
         is: {
-          //Minimum eight characters, at least one upper case English letter, one lower case English letter, one number and one special character
-          args: /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?\d)(?=.*?[#?!@$ %^&*-]).{8,}$/g,
-          msg: "At least one digit, one lowercase character, one uppercase character, one special character and minimum length of 8 characters.",
+          //At least one upper case English letter, one lower case English letter, one number and one special character
+          args: /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?\d)(?=.*?[#?!@$ %^&*-])$/g,
+          msg: "Password must have at least one digit, one lowercase character, one uppercase character, one special character.",
         },
         len: {
           args: 8,

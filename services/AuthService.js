@@ -1,6 +1,7 @@
-const userModel = require("../models/UserModel");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+
+const userModel = require("../models/UserModel");
 
 const findUserService = async (username) => {
   // Checks if the username is already in the database
@@ -19,8 +20,15 @@ const createUserService = async (payload) => {
   // Checks if the username is already in the database
   const userStored = await findUserService(username);
 
-  // If the username not in the database, hash the password and insert the user in the database
-  if (userStored === null) {
+  // If the username not in the database, return an error, otherwise return the user
+  if (userStored !== null) {
+    throw {
+      code: 400,
+      message: "The username already exists, choose a different username.",
+    };
+
+    // If the username not in the database, hash the password and insert the user in the database
+  } else {
     let passwordHashed = await bcrypt.hash(password, 10);
 
     const user = await userModel.create({
