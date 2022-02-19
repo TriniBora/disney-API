@@ -14,6 +14,8 @@ This project includes dependecies such as:
 - Environment variables: Dotenv
 - ORM: Sequelize
 - mySQL driver: mysql2
+- JSON Web Token: jsonwebtoken
+- Bcrypt: bcrypt
 
 ## Run
 
