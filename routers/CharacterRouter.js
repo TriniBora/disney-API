@@ -3,10 +3,24 @@ const characterRouter = express.Router();
 
 const characterController = require("../controllers/CharacterController");
 
-characterRouter.get("/characters", characterController.findCharacters);
-characterRouter.get("/characters/:id", characterController.findCharacterById);
-characterRouter.post("/characters", characterController.createCharacter);
-characterRouter.put("/characters/:id", characterController.updateCharacter);
-characterRouter.delete("/characters/:id", characterController.deleteCharacter);
+const auth = require("../midlewares/auth");
+
+characterRouter.get("/characters", auth, characterController.findCharacters);
+characterRouter.get(
+  "/characters/:id",
+  auth,
+  characterController.findCharacterById
+);
+characterRouter.post("/characters", auth, characterController.createCharacter);
+characterRouter.put(
+  "/characters/:id",
+  auth,
+  characterController.updateCharacter
+);
+characterRouter.delete(
+  "/characters/:id",
+  auth,
+  characterController.deleteCharacter
+);
 
 module.exports = characterRouter;

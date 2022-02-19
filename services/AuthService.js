@@ -49,7 +49,7 @@ const loginService = async (payload) => {
 
   // If the username not in the database, return an error, otherwise return the user
   if (userStored === null) {
-    throw { code: 400, message: "Inexistent user" };
+    throw { code: 404, message: "Inexistent user" };
 
     //If the user is already in the database, check if the password is correct
   } else {
@@ -70,7 +70,7 @@ const loginService = async (payload) => {
         expiresIn: process.env.TOKEN_EXPIRATION,
       }
     );
-    return { userId: userStored.id, token: token };
+    return { user: userStored, token: token };
   }
 };
 module.exports = {
