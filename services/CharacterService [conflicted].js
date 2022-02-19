@@ -20,38 +20,72 @@ const findCharactersService = async (query) => {
     newQuery = { ...query, name: { [Op.like]: `%${query.name}%` } };
   }
 
-  // Relation between the movies and the characters tables
-  let includeMovies = {
-    model: movieModel,
-    as: "Movies",
-    attributes: ["title"],
-  };
-
   // If there is a movies query parameter, first finds the id of that movie/serie
   // then removes the movies parameter from the query because this is not a column in the database table "characters"
   // finally the movie is added to the query
   if (queryKeys.includes("movies")) {
     const movies = await movieService.findMovieByIdService(query.movies);
-
     //Removes movie key because this is not a column in the database table "movies"
     delete newQuery["movies"];
-
-    // Relation between the movies and the characters tables
-    includeMovies = {
-      ...includeMovies,
-      where: {
-        id: movies.id,
-      },
-    };
+    newQuery = { ...newQuery, MovieId: movies.id };
   }
 
-  // Returns the characters which matching the given name, age or movie id stored in the database
-  // If any query parameter is provided, it returns all the characters stored in the database
-  const characters = await characterModel.findAll({
-    include: [includeMovies],
-    where: newQuery,
-  });
-  return characters;
+  // Relation between the movies and the characters tables
+  const includeMovies = {
+    model: movieModel,
+    as: "Movies",
+    attributes: ["title"],
+  };
+
+// Returns the characters which matching the given name, age or movie id stored in the database
+const movies = await movieModel.findAll({
+
+  where: newQuery,
+
+});
+return movies;
+// Returns all the characters stored in the database without applying any sort type, and showing the movies asociated.
+} else {
+const movies = await movieModel.findAll({
+  include: [includeGenre, includeCharacters],
+  attributes: attributes,
+  where: where,
+});
+return movies;
+}
+
+
+
+
+  if (queryKeys.includes("age")) {
+    const characters = await characterModel.findAll({
+      include: [
+        {
+          model: movieModel,
+          as: "Movies",
+          attributes: ["title"],
+        },
+      ],
+      //Includes the Op.like sequilize operator to match the name partially or exactly
+      where: {
+        ...query,
+        name: { [Op.like]: `%${query.name}%` },
+      },
+    });
+    return characters;
+  } else {
+    const characters = await characterModel.findAll({
+      include: [
+        {
+          model: movieModel,
+          as: "Movies",
+          attributes: ["title"],
+        },
+      ],
+      where: query,
+    });
+    return characters;
+  }
 };
 
 // This function return the character with the given id stored in the database

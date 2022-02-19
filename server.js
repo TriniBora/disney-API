@@ -5,7 +5,7 @@ const app = express();
 const sequelize = require("./config/db");
 const seeds = require("./scripts/seeds");
 require("./config/associations");
-require("./scripts/seeds");
+// require("./scripts/seeds");
 
 const port = process.env.PORT || 3000;
 
@@ -32,5 +32,5 @@ app.listen(port, () => {
   };
 
   dbConnection();
-  seeds();
+  // seeds();
 });

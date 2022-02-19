@@ -2,6 +2,7 @@ const { Op } = require("sequelize");
 
 const movieModel = require("../models/MovieModel");
 const genreModel = require("../models/GenreModel");
+const characterModel = require("../models/CharacterModel");
 
 const genreService = require("./GenreService");
 
@@ -27,14 +28,20 @@ const findMoviesService = async (query) => {
     newQuery = { ...newQuery, GenreId: genre.id };
   }
 
-  // Relation between the movies and the genres table
-  const include = {
+  // Relation between the movies and the genres tables
+  const includeGenre = {
     model: genreModel,
     as: "Genre",
     attributes: ["name"],
   };
+  // Relation between the movies and the characters tables
+  const includeCharacters = {
+    model: characterModel,
+    as: "Characters",
+    attributes: ["name"],
+  };
   // Fields to be selected from the table "movies"
-  const attributes = ["title", "rate", "creationDate", "image"];
+  const attributes = ["title", "creationDate", "image"];
   // Conditions to be applied to the query
   const where = newQuery;
 
@@ -52,7 +59,7 @@ const findMoviesService = async (query) => {
 
     // Returns the movies/series which matching the given title, genre, or sort type stored in the database
     const movies = await movieModel.findAll({
-      include: include,
+      include: [includeGenre, includeCharacters],
       attributes: attributes,
       where: where,
       order: orderBy,
@@ -61,7 +68,7 @@ const findMoviesService = async (query) => {
     // Returns all the movies/series stored in the database without applying any sort type
   } else {
     const movies = await movieModel.findAll({
-      include: include,
+      include: [includeGenre, includeCharacters],
       attributes: attributes,
       where: where,
     });

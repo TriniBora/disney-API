@@ -7,7 +7,11 @@ const findCharacters = async (req, res) => {
     const queryKeys = Object.keys(req.query);
     // Only allowed to filter characters by name, age and weight. If any other query parameter is passed,
     // an error message is returned
-    if (queryKeys.every((key) => ["name", "age", "weight"].includes(key))) {
+    if (
+      queryKeys.every((key) =>
+        ["name", "age", "weight", "movies"].includes(key)
+      )
+    ) {
       const characters = await characterService.findCharactersService(
         req.query
       );
@@ -29,6 +33,7 @@ const findCharacters = async (req, res) => {
       });
     }
   } catch (error) {
+    console.log(error);
     res.status(500).json(error);
   }
 };

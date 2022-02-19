@@ -40,10 +40,6 @@ const characterModel = sequelize.define(
           args: true,
           msg: "Weight must be a decimal number",
         },
-        // min: {
-        //   args: 0,
-        //   msg: "Weight must be greater than zero",
-        // },
       },
     },
     history: {
