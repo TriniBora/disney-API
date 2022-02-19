@@ -11,8 +11,8 @@ const userModel = sequelize.define(
       validate: {
         is: {
           //Alphanumeric string that may include _ and - having a length of 3 to 16 characters.
-          args: /^[a-z0-9_-]{3,15}$/g,
-          msg: "Only special charcaters _ and - are allowed.",
+          args: /^[a-zA-Z0-9_-]{3,15}$/g,
+          msg: "Only special characters _ and - are allowed in the username.",
         },
         len: {
           args: [3, 16],
@@ -46,4 +46,4 @@ const userModel = sequelize.define(
   }
 );
 
-module.exports = genreModel;
+module.exports = userModel;
