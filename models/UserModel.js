@@ -40,6 +40,17 @@ const userModel = sequelize.define(
         notNull: { args: false, msg: "Password is required" },
       },
     },
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        isEmail: {
+          args: true,
+          msg: "Invalid email.",
+        },
+        notNull: { args: false, msg: "Email is required" },
+      },
+    },
   },
   {
     timestamps: false,

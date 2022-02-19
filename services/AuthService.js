@@ -15,7 +15,7 @@ const findUserService = async (username) => {
 
 // This function inserts a new user in the database
 const createUserService = async (payload) => {
-  const { username, password } = payload;
+  const { username, password, email } = payload;
 
   // Checks if the username is already in the database
   const userStored = await findUserService(username);
@@ -34,6 +34,7 @@ const createUserService = async (payload) => {
     const user = await userModel.create({
       username: username,
       password: passwordHashed,
+      email: email,
     });
 
     return user;

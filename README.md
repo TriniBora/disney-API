@@ -16,6 +16,7 @@ This project includes dependecies such as:
 - mySQL driver: mysql2
 - JSON Web Token: jsonwebtoken
 - Bcrypt: bcrypt
+- SendGrid: @sendgrid/mail
 
 ## Run
 
