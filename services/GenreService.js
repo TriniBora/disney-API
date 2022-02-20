@@ -9,6 +9,7 @@ const findGenreByIdService = async (id) => {
   }
   const genre = await genreModel.findByPk(id);
   // Verifies if the genre exists in the database, if not found, throws an error
+
   if (genre === null) {
     throw { code: 400, message: "Invalid genre id" };
   }

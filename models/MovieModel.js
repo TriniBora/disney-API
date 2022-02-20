@@ -1,6 +1,7 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/db");
 
+// Movie model, schema and validation rules
 const MovieModel = sequelize.define(
   "Movie",
   {
@@ -25,15 +26,17 @@ const MovieModel = sequelize.define(
       },
     },
     creationDate: {
+      // Current date to be inserted in the database
       type: DataTypes.DATEONLY,
-      defaultValue: sequelize.literal("CURRENT_DATE"), // Current date to be inserted in the database
+      defaultValue: sequelize.literal("CURRENT_DATE"),
       validate: {
         isDate: {
           args: true,
           msg: "Creation date must be a date with the format 'yyyy-MM-dd'",
         },
         isBefore: {
-          args: new Date().toISOString().split("T")[0], // Current date formatted as 'yyyy-MM-dd'
+          // Current date formatted as 'yyyy-MM-dd'
+          args: new Date().toISOString().split("T")[0],
           msg: "Creation date must be before today",
         },
       },

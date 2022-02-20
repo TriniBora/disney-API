@@ -1,6 +1,7 @@
 const path = require("path");
 const dotenv = require("dotenv");
 
+// The following code loads the environment variables from a .env file according to the NODE_ENV variable
 try {
   let env = proccess.env.NODE_ENV;
   let result = {};

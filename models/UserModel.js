@@ -1,6 +1,8 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/db");
 
+// User model, schema and validation rules
+// username and email must be unique
 const userModel = sequelize.define(
   "User",
   {
@@ -28,11 +30,6 @@ const userModel = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        // is: {
-        //   //At least one upper case English letter, one lower case English letter, one number and one special character
-        //   args: /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?\d)(?=.*?[#?!@$ %^&*-])$/g,
-        //   msg: "Password must have at least one digit, one lowercase character, one uppercase character, one special character.",
-        // },
         len: {
           args: [8, 255],
           msg: "Password min length is 8 characters",
@@ -43,6 +40,10 @@ const userModel = sequelize.define(
     email: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: {
+        args: true,
+        msg: "Email already in use",
+      },
       validate: {
         isEmail: {
           args: true,

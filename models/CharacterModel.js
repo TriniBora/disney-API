@@ -2,6 +2,7 @@ const { DataTypes } = require("sequelize");
 const sequelize = require("../config/db");
 const MovieModel = require("./MovieModel");
 
+// Character model, include schema and validation rules
 const characterModel = sequelize.define(
   "Character",
   {
@@ -10,7 +11,7 @@ const characterModel = sequelize.define(
       allowNull: false,
       validate: {
         is: {
-          args: /^[A-Za-zÀ-ÿ\s]+$/g, //Letters(included ñ and Ñ), spaces and accents
+          args: /^[A-Za-zÀ-ÿ\s]+$/g, // Alphabets only (included ñ and Ñ), spaces and accents
           msg: "Only letters and spaces allowed",
         },
         len: {

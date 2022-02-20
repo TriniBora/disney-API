@@ -1,5 +1,5 @@
-const { query } = require("express");
 const characterService = require("../services/CharacterService");
+const { response, errorResponse } = require("../utils/response");
 
 // This function is used to find all characters, filtering by name, age, weight or movie id in case of query parameters
 const findCharacters = async (req, res) => {
@@ -15,29 +15,22 @@ const findCharacters = async (req, res) => {
       const characters = await characterService.findCharactersService(
         req.query
       );
-      res.status(200).json({
-        status: 200,
-        data: characters,
-        message: `${
-          characters.length > 0
-            ? "Characters retrieved successfully."
-            : "There is no characters in the database that match with the query."
-        }`,
-      });
+      const msg = `${
+        characters.length > 0
+          ? "Characters retrieved successfully."
+          : "There is no characters in the database that match with the query."
+      }`;
+      response(200, characters, res, msg);
     } else {
-      res.status(401).json({
-        status: 401,
-        data: null,
-        message:
-          "Only characters filtered by name, age, or weight are allowed.",
-      });
+      response(
+        401,
+        null,
+        res,
+        "Only characters filtered by name, age, weight or movie id are allowed."
+      );
     }
   } catch (error) {
-    res.status(error.code || 500).json({
-      status: error.code || 500,
-      data: null,
-      message: error.message || "Error finding characters",
-    });
+    errorResponse(error, res, "Error finding the characters");
   }
 };
 
@@ -48,56 +41,32 @@ const findCharacterById = async (req, res) => {
     const character = await characterService.findCharacterByIdService(
       req.params.id
     );
-    res.status(200).json({
-      status: 200,
-      data: character,
-      message: `${
-        character.length === 1
-          ? "Character retrieved successfully."
-          : "There is no exists any character with this ID in the database."
-      }`,
-    });
+    response(200, character, res, "Character retrieved successfully.");
   } catch (error) {
-    res.status(error.code).json({
-      status: error.code,
-      data: null,
-      message: error.message,
-    });
+    errorResponse(error, res, "Error finding the character");
   }
 };
 
 // This function is used to create a new character
-// If the character data is not valid, an error message is returned ---------- AGREGAR VALIDATE MODEL!!
+// If the character data is not valid, an error message is returned
 const createCharacter = async (req, res) => {
   try {
     await characterService.createCharacterService(req.body);
-    res.status(201).json({
-      status: 201,
-      data: null,
-      message: "Character created successfully",
-    });
+    response(201, null, res, "Character created successfully");
   } catch (error) {
-    res.status(500).json(error);
+    errorResponse(error, res, "Error creating character");
   }
 };
 
 // This function is used to update an existing character, given its ID as a URL parameter and its new data as a request body
 // If the character is not found, an error message is returned
-// If the character data is not valid, an error message is returned ---------- AGREGAR VALIDATE MODEL!!
+// If the character data is not valid, an error message is returned
 const updateCharacter = async (req, res) => {
   try {
     await characterService.updateCharacterService(req.body, req.params.id);
-    res.status(200).json({
-      status: 200,
-      data: null,
-      message: "Character updated successfully",
-    });
+    response(200, null, res, "Character updated successfully");
   } catch (error) {
-    res.status(error.code).json({
-      status: error.code,
-      data: null,
-      message: error.message,
-    });
+    errorResponse(error, res, "Error updating the character");
   }
 };
 
@@ -106,17 +75,9 @@ const updateCharacter = async (req, res) => {
 const deleteCharacter = async (req, res) => {
   try {
     await characterService.deleteCharacterService(req.params.id);
-    res.status(200).json({
-      status: 200,
-      data: null,
-      message: "Character deleted successfully",
-    });
+    response(200, null, res, "Character deleted successfully");
   } catch (error) {
-    res.status(error.code).json({
-      status: error.code,
-      data: null,
-      message: error.message,
-    });
+    errorResponse(error, res, "Error deleting character");
   }
 };
 

@@ -94,14 +94,13 @@ const createMovieService = async (payload) => {
   // Verifies if the genre id is valid or if exists in the database, if not, throws an error
   await genreService.findGenreByIdService(genreId);
 
-  const movie = await movieModel.create({
+  await movieModel.create({
     title: title,
     rate: rate,
     creationDate: creationDate,
     image: image,
     GenreId: genreId,
   });
-  return movie;
 };
 
 // This function updates only the modified data of the movie/serie with the given id stored in the database
@@ -115,7 +114,7 @@ const updateMovieService = async (payload, id) => {
   // Verifies if the genre id is valid or if exists in the database, if not, throws an error
   await genreService.findGenreByIdService(genreId);
 
-  const movieUpdated = await movieModel.update(
+  await movieModel.update(
     {
       title: title || movie.title,
       rate: rate || movie.rate,
@@ -129,19 +128,17 @@ const updateMovieService = async (payload, id) => {
       },
     }
   );
-  return movieUpdated;
 };
 
 // This function deletes the movie/serie with the given id stored in the database
 const deleteMovieService = async (id) => {
   // Checks if the movie/serie exists in the database, if not found, throws an error
   await findMovieByIdService(id);
-  const movieDeleted = await movieModel.destroy({
+  await movieModel.destroy({
     where: {
       id: id,
     },
   });
-  return movieDeleted;
 };
 
 module.exports = {

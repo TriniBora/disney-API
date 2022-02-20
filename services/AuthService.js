@@ -5,6 +5,8 @@ const userModel = require("../models/UserModel");
 
 const sendConfirmationEmail = require("./EmailService");
 
+// This function finds a user by username in the database
+// Returns null if the user is not found, otherwise returns the user
 const findUserService = async (username) => {
   // Checks if the username is already in the database
   const user = await userModel.findOne({
@@ -22,7 +24,7 @@ const createUserService = async (payload) => {
   // Checks if the username is already in the database
   const userStored = await findUserService(username);
 
-  // If the username not in the database, return an error, otherwise return the user
+  // If the username is already in the database, throw an error
   if (userStored !== null) {
     throw {
       code: 400,

@@ -5,6 +5,8 @@ const movieModel = require("../../models/MovieModel");
 const characterMovieModel = require("../../models/CharacterMovieModel");
 require("../associations");
 
+// Model data to insert into the database. Read Readme.md for more info.
+
 // Characters
 const characters = [
   {

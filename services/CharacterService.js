@@ -66,14 +66,16 @@ const findCharacterByIdService = async (id) => {
 
 // This function inserts a new character in the database
 const createCharacterService = async (payload) => {
-  const character = await characterModel.create({
-    name: payload.name,
-    age: payload.age,
-    weight: payload.weight,
-    history: payload.history,
-    image: payload.image,
+  // Destructuring the payload
+  const { name, age, weight, history, image } = payload;
+
+  await characterModel.create({
+    name: name,
+    age: age,
+    weight: weight,
+    history: history,
+    image: image,
   });
-  return character;
 };
 
 // This function updates only the modified data of the character with the given id stored in the database
@@ -83,7 +85,7 @@ const updateCharacterService = async (payload, id) => {
 
   // Checks if the character exists in the database, if not found, throws an error
   const character = await findCharacterByIdService(id);
-  const characterUpdated = await characterModel.update(
+  await characterModel.update(
     {
       name: name || character.name,
       age: age || character.age,
@@ -97,19 +99,18 @@ const updateCharacterService = async (payload, id) => {
       },
     }
   );
-  return characterUpdated;
 };
 
 // This function deletes the character with the given id stored in the database
 const deleteCharacterService = async (id) => {
   // Checks if the character exists in the database, if not found, throws an error
-  const character = await findCharacterByIdService(id);
-  const characterDeleted = await characterModel.destroy({
+  await findCharacterByIdService(id);
+
+  await characterModel.destroy({
     where: {
       id: id,
     },
   });
-  return characterDeleted;
 };
 
 module.exports = {

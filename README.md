@@ -35,6 +35,6 @@ Create a `.env` file in the root directory of the project and add the variables 
 - Create the database schema only, do not need to create the tables.
 - Configure the database options in the `.env` file, following the example options in the `.env.example` file.
 - Run the application.
-- Optional: to insert model data into the database: first change to ```await sequelize.sync({ force: false });``` in the `server.js` file ant then decoment line `require("./config/scripts/seeds");` in the `server.js` file. After that you can run the application.
+- Optional: to insert model data into the database: first change to ```await sequelize.sync({ force: false });``` in the `server.js` file ant then decoment line `require("./config/scripts/seeds");` in the `server.js` file. After that you can run the application. Finally, comment the line `require("./config/scripts/seeds");` in the `server.js` file to avoid inserting model data into the databasea gain.
 
 ### Observation: if you do not want to drop and recreate the database tables anytime to the application runs, you have to change to ```await sequelize.sync({ force: false });``` in the `server.js` file.

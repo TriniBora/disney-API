@@ -4,7 +4,7 @@ const authService = require("../services/AuthService");
 // This function logs in a user
 const signIn = async (req, res) => {
   try {
-    // Data is an object containing the user id and a token
+    // Data is an object containing the user and the token
     const data = await authService.loginService(req.body);
     res.status(200).json({
       status: 200,
