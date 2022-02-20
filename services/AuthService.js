@@ -77,11 +77,14 @@ const loginService = async (payload) => {
   }
 };
 
+// This function registers a new user and sends a confirmation email
 const registerService = async (payload) => {
   const user = await createUserService(payload);
   try {
-    const email = await sendConfirmationEmail(user);
+    // If the user is created, send a confirmation email
+    await sendConfirmationEmail(user);
   } catch (error) {
+    // If there is an error sending the email, return an error
     throw { code: 500, message: "There is a problem sending the message" };
   }
   return user;
