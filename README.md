@@ -29,3 +29,15 @@ npm start
 See `.env.example` for more information on environment variables
 
 Create a `.env` file in the root directory of the project and add the variables you need.
+
+
+## Database
+- Create the database schema only, do not need to create the tables.
+- Configure the database options in the `.env` file, following the example options in the `.env.example` file.
+- Run the application.
+- Optional: to insert model data into the database:
+-- change to ```await sequelize.sync({ force: false });``` in the `server.js` file
+-- decoment line `require("./config/scripts/seeds");` in the `server.js` file.
+
+--- Observation: if you do not want to drop and recreate the database tables anytime to the application runs,
+you have to change to ```await sequelize.sync({ force: false });``` in the `server.js` file.

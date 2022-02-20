@@ -71,16 +71,14 @@ const characterMovies = [
   { CharacterId: 1, MovieId: 3 },
 ];
 
-const seeds = async () => {
+(async () => {
   try {
     await characterModel.bulkCreate(characters, { validate: true });
     await genreModel.bulkCreate(genres, { validate: true });
     await movieModel.bulkCreate(movies, { validate: true });
     await characterMovieModel.bulkCreate(characterMovies, { validate: true });
-    console.log("Inserción.");
   } catch (error) {
-    console.error("No inserción:", error);
+    console.log(error);
+    console.error(error);
   }
-};
-
-module.exports = seeds;
+})();
