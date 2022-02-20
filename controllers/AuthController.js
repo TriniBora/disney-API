@@ -23,7 +23,7 @@ const signIn = async (req, res) => {
 //This function registers a new user
 const signUp = async (req, res) => {
   try {
-    const user = await authService.createUserService(req.body);
+    const user = await authService.registerService(req.body);
 
     res.status(201).json({
       status: 201,

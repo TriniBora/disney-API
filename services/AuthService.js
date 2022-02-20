@@ -3,6 +3,8 @@ const jwt = require("jsonwebtoken");
 
 const userModel = require("../models/UserModel");
 
+const sendConfirmationEmail = require("./EmailService");
+
 const findUserService = async (username) => {
   // Checks if the username is already in the database
   const user = await userModel.findOne({
@@ -74,7 +76,18 @@ const loginService = async (payload) => {
     return { user: userStored, token: token };
   }
 };
+
+const registerService = async (payload) => {
+  const user = await createUserService(payload);
+  try {
+    const email = await sendConfirmationEmail(user);
+  } catch (error) {
+    throw { code: 500, message: "There is a problem sending the message" };
+  }
+  return user;
+};
 module.exports = {
   createUserService,
   loginService,
+  registerService,
 };

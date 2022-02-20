@@ -28,14 +28,14 @@ const userModel = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        is: {
-          //At least one upper case English letter, one lower case English letter, one number and one special character
-          args: /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?\d)(?=.*?[#?!@$ %^&*-])$/g,
-          msg: "Password must have at least one digit, one lowercase character, one uppercase character, one special character.",
-        },
+        // is: {
+        //   //At least one upper case English letter, one lower case English letter, one number and one special character
+        //   args: /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?\d)(?=.*?[#?!@$ %^&*-])$/g,
+        //   msg: "Password must have at least one digit, one lowercase character, one uppercase character, one special character.",
+        // },
         len: {
-          args: 8,
-          msg: "Password length is 8 characters",
+          args: [8, 255],
+          msg: "Password min length is 8 characters",
         },
         notNull: { args: false, msg: "Password is required" },
       },
