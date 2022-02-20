@@ -37,5 +37,4 @@ Create a `.env` file in the root directory of the project and add the variables 
 - Run the application.
 - Optional: to insert model data into the database: first change to ```await sequelize.sync({ force: false });``` in the `server.js` file ant then decoment line `require("./config/scripts/seeds");` in the `server.js` file. After that you can run the application.
 
-### Observation: if you do not want to drop and recreate the database tables anytime to the application runs,
-you have to change to ```await sequelize.sync({ force: false });``` in the `server.js` file.
+### Observation: if you do not want to drop and recreate the database tables anytime to the application runs, you have to change to ```await sequelize.sync({ force: false });``` in the `server.js` file.
