@@ -4,7 +4,7 @@ const api = require("./config/api");
 const app = express();
 const sequelize = require("./config/db");
 require("./config/associations");
-require("./config/scripts/seeds");
+// require("./config/scripts/seeds"); //Decoment this line to seed the database. Read README.md for more info.
 
 const port = process.env.PORT || 3000;
 const domain = process.env.DOMAIN || "localhost";
@@ -27,7 +27,7 @@ app.listen(port, () => {
   try {
     // force: true will drop the tables if it already exists
     // force: false will not drop the tables if it already exists
-    await sequelize.sync({ force: false });
+    await sequelize.sync({ force: true });
     console.log(
       "Connection to the database has been established successfully."
     );
