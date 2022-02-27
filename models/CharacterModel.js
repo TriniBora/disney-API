@@ -47,7 +47,13 @@ const characterModel = sequelize.define(
       type: DataTypes.STRING(1234),
     },
     image: {
-      type: DataTypes.BLOB,
+      type: DataTypes.STRING,
+      validate: {
+        isUrl: {
+          args: true,
+          msg: "Image must be a valid URL",
+        },
+      },
     },
   },
   {

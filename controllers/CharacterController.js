@@ -23,7 +23,7 @@ const findCharacters = async (req, res) => {
       response(200, characters, res, msg);
     } else {
       response(
-        401,
+        400,
         null,
         res,
         "Only characters filtered by name, age, weight or movie id are allowed."

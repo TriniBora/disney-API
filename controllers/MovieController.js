@@ -17,7 +17,7 @@ const findMovies = async (req, res) => {
       response(200, movies, res, msg);
     } else {
       response(
-        401,
+        400,
         null,
         res,
         "Only movies/series filtered by title, genre, or sort by creation date are allowed."

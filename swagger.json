@@ -1,0 +1,793 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "This is a Disney characters and movies collection APi made by Trinidad Boragini for the Alkemy's Challenge Backend NodeJs (2022, Feb). Link to document: https://drive.google.com/file/d/1XCUYgTFaE9uBNI-FqKDWIa4RCztooz_X/view?usp=sharing.",
+    "version": "1.0.0",
+    "title": "Disney API"
+  },
+  "host": "localhost:3000",
+  "basePath": "/api/v1",
+  "schemes": ["http"],
+  "paths": {
+    "/characters": {
+      "get": {
+        "tags": ["characters"],
+        "summary": "Get all characters",
+        "description": "This operation is used to retrieve all characters stored in the database. This can only be done by the logged in user.",
+        "operationId": "findCharacters",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "name",
+            "type": "string",
+            "description": "The characters filter by name"
+          },
+          {
+            "in": "query",
+            "name": "age",
+            "type": "integer",
+            "description": "The characters filter by age"
+          },
+          {
+            "in": "query",
+            "name": "weight",
+            "type": "number",
+            "format": "float",
+            "description": "The characters filter by weight"
+          },
+          {
+            "in": "query",
+            "name": "movies",
+            "type": "integer",
+            "description": "The movies filter by movie/serie ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Characters retrieved successfully or There is no characters in the database that match with the query, depending on the query results",
+            "schema": {
+              "$ref": "#/definitions/CharacterMovies"
+            }
+          },
+          "400": {
+            "description": "Only characters filtered by name, age, weight or movie id are allowed",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          },
+          "401": {
+            "description": "User doesn't have permission",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          },
+          "500": {
+            "description": "Error finding the characters",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["characters"],
+        "summary": "Create a new character",
+        "description": "This operation is used to create a new character and store it into the database. This can only be done by the logged in user.",
+        "operationId": "createCharacter",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "character",
+            "description": "The data of the new character.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Character"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Character created successfully",
+            "schema": {
+              "$ref": "#/definitions/Character"
+            }
+          },
+          "400": {
+            "description": "Invalid input",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          },
+          "401": {
+            "description": "User doesn't have permission",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          },
+          "500": {
+            "description": "Error creating character",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          }
+        }
+      }
+    },
+    "/characters/{id}": {
+      "get": {
+        "tags": ["characters"],
+        "summary": "Get an existent character by ID",
+        "description": "This operation is used to retrieve the character with the given ID stored in the database. This can only be done by the logged in user.",
+        "operationId": "findCharacterById",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "Character id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Character retrieved successfully",
+            "schema": {
+              "$ref": "#/definitions/CharacterMovies"
+            }
+          },
+          "400": {
+            "description": "Invalid character id",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          },
+          "401": {
+            "description": "User doesn't have permission",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          },
+          "500": {
+            "description": "Error finding the character",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["characters"],
+        "summary": "Update an existent character",
+        "description": "Modify data from an existent character and update the database. This can only be done by the logged in user.",
+        "operationId": "updateCharacter",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "Character id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "The data to update the existent character.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Character"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Character updated successfully",
+            "schema": {
+              "$ref": "#/definitions/Character"
+            }
+          },
+          "400": {
+            "description": "Invalid character id",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          },
+          "401": {
+            "description": "User doesn't have permission",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          },
+          "500": {
+            "description": "Error updating the character",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["characters"],
+        "summary": "Delete an existent character.",
+        "description": "Modify data from an existent character and update the database. This can only be done by the logged in user.",
+        "operationId": "deleteCharacter",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "Character id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Character deleted successfully",
+            "schema": {
+              "$ref": "#/definitions/Character"
+            }
+          },
+          "400": {
+            "description": "Invalid character id",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          },
+          "401": {
+            "description": "User doesn't have permission",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          },
+          "500": {
+            "description": "Error deleting the character",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          }
+        }
+      }
+    },
+    "/movies": {
+      "get": {
+        "tags": ["movies"],
+        "summary": "Get all movies/series",
+        "description": "This operation is used to retrieve all movies/series stored in the database. This can only be done by the logged in user.",
+        "operationId": "findMovies",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "title",
+            "description": "The movies filter by title",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "genre",
+            "description": "The movies filter by genre",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "order",
+            "type": "string",
+            "enum": ["ASC", "DESC"],
+            "description": "The movies sort by creation date, ascending or descending"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Movies/series retrieved successfully or There is no movies/series in the database that match with the query, depending on the query results",
+            "schema": {
+              "$ref": "#/definitions/MovieCharacters"
+            }
+          },
+          "400": {
+            "description": "Only movies/series filtered by title, genre, or sort by creation date are allowed",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          },
+          "401": {
+            "description": "User doesn't have permission",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          },
+          "500": {
+            "description": "Error finding the movies/series",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["movies"],
+        "summary": "Create a new movie/serie",
+        "description": "This operation is used to create a new movies/serie and store it into the database. This can only be done by the logged in user.",
+        "operationId": "createMovie",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "movie",
+            "description": "The data of the new movie",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Movie"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Movie/serie created successfully",
+            "schema": {
+              "$ref": "#/definitions/Movie"
+            }
+          },
+          "400": {
+            "description": "Invalid input",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          },
+          "401": {
+            "description": "User doesn't have permission",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          },
+          "500": {
+            "description": "Error creating Movie/serie",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          }
+        }
+      }
+    },
+    "/movies/{id}": {
+      "get": {
+        "tags": ["movies"],
+        "summary": "Get an existent movie/serie by ID",
+        "description": "This operation is used to retrieve the movie/serie with the given ID stored in the database. This can only be done by the logged in user.",
+        "operationId": "findMovieById",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "Movie/serie id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Movie/serie retrieved successfully",
+            "schema": {
+              "$ref": "#/definitions/MovieCharacters"
+            }
+          },
+          "400": {
+            "description": "Invalid movie/serie id",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          },
+          "401": {
+            "description": "User doesn't have permission",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          },
+          "500": {
+            "description": "Error finding the movie/serie",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["movies"],
+        "summary": "Update an existent movie/serie",
+        "description": "Modify data from an existent movie/serie and update the database. This can only be done by the logged in user.",
+        "operationId": "updateMovie",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "Movie id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "The data to update the existent movie/serie.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Movie"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Movie/serie updated successfully",
+            "schema": {
+              "$ref": "#/definitions/Movie"
+            }
+          },
+          "400": {
+            "description": "Invalid movie/serie id",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          },
+          "401": {
+            "description": "User doesn't have permission",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          },
+          "500": {
+            "description": "Error updating the movie/serie",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["movies"],
+        "summary": "Delete an existent movie/serie.",
+        "description": "Modify data from an existent movie/serie and update the database. This can only be done by the logged in user.",
+        "operationId": "deleteMovie",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "Movie/serie id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Movie/serie deleted successfully",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          },
+          "400": {
+            "description": "Invalid movie/serie id",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          },
+          "401": {
+            "description": "User doesn't have permission",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          },
+          "500": {
+            "description": "Error deleting the movie/serie",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": ["user"],
+        "summary": "Logs user into the system",
+        "description": "This operation is used to validate user data within the user data stored in the database.",
+        "operationId": "signIn",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "user",
+            "description": "The user to logged in.",
+            "schema": {
+              "type": "object",
+              "required": ["username", "password"],
+              "properties": {
+                "username": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User logged in successfully",
+            "schema": {
+              "$ref": "#/definitions/UserBasic"
+            }
+          },
+          "400": {
+            "description": "Invalid password",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          },
+          "404": {
+            "description": "Inexistent user",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          },
+          "500": {
+            "description": "There is an error processing the login",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          }
+        }
+      }
+    },
+    "/auth/register": {
+      "post": {
+        "tags": ["user"],
+        "summary": "Register a new user",
+        "description": "This operation is used to create a new user and store it into the database.",
+        "operationId": "signUp",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "user",
+            "description": "The data of the new user.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserFull"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "User created successfully",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          },
+          "500": {
+            "description": "There is an error creating the user",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Character": {
+      "type": "object",
+      "required": ["name"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "pattern": "/^[A-Za-zÀ-ÿ\\s]+$/g",
+          "minLength": 2,
+          "maxLength": 255,
+          "example": "Donald Duck"
+        },
+        "age": {
+          "type": "integer",
+          "minimum": 1,
+          "example": 20
+        },
+        "weight": {
+          "type": "number",
+          "format": "float",
+          "example": 55.2
+        },
+        "history": {
+          "type": "string",
+          "example": "Donald's two dominant personality traits are his fiery temper and his upbeat attitude to life. Many Donald shorts start with Donald in a happy mood, without a care in the world until something comes along and spoils his day. His rage is a great cause of suffering in his life. On multiple occasions, it has caused him to get in over his head and lose competitions."
+        },
+        "image": {
+          "type": "string",
+          "maxLength": 255,
+          "example": "https://en.wikipedia.org/wiki/File:Donald_Duck_angry_transparent_background.png"
+        }
+      }
+    },
+    "CharacterName": {
+      "type": "string",
+      "pattern": "/^[A-Za-zÀ-ÿ\\s]+$/g",
+      "minLength": 2,
+      "maxLength": 255,
+      "example": "Donald Duck"
+    },
+    "CharactersNames": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/CharacterName"
+      }
+    },
+    "CharacterMovies": {
+      "type": "object",
+      "properties": {
+        "schema": {
+          "$ref": "#/definitions/Character"
+        },
+        "movies": {
+          "$ref": "#/definitions/Movies"
+        }
+      }
+    },
+    "Movie": {
+      "type": "object",
+      "required": ["title"],
+      "properties": {
+        "title": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 255,
+          "example": "The Three Caballeros"
+        },
+        "rate": {
+          "type": "string",
+          "enum": ["1", "2", "3", "4", "5"]
+        },
+        "creationDate": {
+          "type": "string",
+          "format": "date",
+          "example": "1944-12-21T00:00:00.000Z"
+        },
+        "image": {
+          "type": "string",
+          "maxLength": 255,
+          "example": "https://upload.wikimedia.org/wikipedia/en/thumb/7/7b/Three_caballeros_poster.png/220px-Three_caballeros_poster.png"
+        }
+      }
+    },
+    "MovieCharacters": {
+      "type": "object",
+      "properties": {
+        "schema": {
+          "$ref": "#/definitions/Movie"
+        },
+        "characters": {
+          "$ref": "#/definitions/CharactersNames"
+        }
+      }
+    },
+    "Movies": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Movie"
+      }
+    },
+    "UserBasic": {
+      "type": "object",
+      "required": ["username", "password"],
+      "properties": {
+        "username": {
+          "type": "string",
+          "pattern": "/^[a-zA-Z0-9_-]{3,15}$/g",
+          "uniqueItems": true,
+          "minLength": 3,
+          "maxLength": 16,
+          "example": "jhondoe33"
+        },
+        "password": {
+          "type": "string",
+          "minLength": 8,
+          "maxLength": 255,
+          "example": "my_Pass33!"
+        }
+      }
+    },
+    "UserFull": {
+      "type": "object",
+      "required": ["username", "password", "email"],
+      "properties": {
+        "username": {
+          "type": "string",
+          "pattern": "/^[a-zA-Z0-9_-]{3,15}$/g",
+          "uniqueItems": true,
+          "minLength": 3,
+          "maxLength": 16,
+          "example": "jhondoe33"
+        },
+        "password": {
+          "type": "string",
+          "minLength": 8,
+          "maxLength": 255,
+          "example": "my_Pass33!"
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "uniqueItems": true,
+          "example": "jdoe_2022@mail.com"
+        }
+      }
+    },
+    "ApiResponse": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "integer",
+          "format": "int32",
+          "enum": [200, 201, 400, 401, 404, 500],
+          "example": 500
+        },
+        "data": {
+          "type": "object",
+          "example": null
+        },
+        "message": {
+          "type": "string",
+          "example": "Error/Success message"
+        }
+      }
+    }
+  }
+}

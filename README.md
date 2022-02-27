@@ -17,6 +17,7 @@ This project includes dependecies such as:
 - JSON Web Token: jsonwebtoken
 - Bcrypt: bcrypt
 - SendGrid: @sendgrid/mail
+- Documentation: swagger-ui-express
 
 ## Run
 

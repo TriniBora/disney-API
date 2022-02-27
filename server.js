@@ -4,11 +4,12 @@ const api = require("./config/api");
 const app = express();
 const sequelize = require("./config/db");
 require("./config/associations");
-// require("./config/scripts/seeds");
+require("./config/scripts/seeds");
 
 const port = process.env.PORT || 3000;
 const domain = process.env.DOMAIN || "localhost";
-const appUrl = `http://${domain}:${port}`;
+const path = process.env.DOC || "api/v1/api-docs";
+const appUrl = `http://${domain}:${port}/${path}`;
 
 app.use(express.urlencoded({ extended: true }));
 

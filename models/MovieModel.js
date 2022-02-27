@@ -42,7 +42,13 @@ const MovieModel = sequelize.define(
       },
     },
     image: {
-      type: DataTypes.BLOB,
+      type: DataTypes.STRING,
+      validate: {
+        isUrl: {
+          args: true,
+          msg: "Image must be a valid URL",
+        },
+      },
     },
   },
   {
